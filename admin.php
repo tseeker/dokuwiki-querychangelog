@@ -110,6 +110,9 @@ class admin_plugin_querychangelog extends DokuWiki_Admin_Plugin {
                 $this->changes = $this->_getChanges($base_dir);
                 $this->show_form = false;
             }
+            if ($_REQUEST['as_csv']) {
+                $this->_generate_csv();
+            }
         }
 
     }
@@ -263,6 +266,10 @@ class admin_plugin_querychangelog extends DokuWiki_Admin_Plugin {
         ptln( '        <td align="right" nowrap><label><span>'.$this->lang['qc_major_only'].':</span></label></td>');
         ptln( '        <td><input type="checkbox" name="qcmo" value="<on>" '.($_REQUEST['qcmo'] == '<on>' ? 'checked="checked"' : '').'"></td>');
         ptln( '      </tr>');
+        ptln( '      <tr>');
+        ptln( '        <td align="right" nowrap><label><span>'.$this->lang['qc_as_csv'].':</span></label></td>');
+        ptln( '        <td><input type="checkbox" name="as_csv" value="<on>"></td>');
+        ptln( '      </tr>');
         ptln( '      <tr><td colspan="5">&nbsp;</td></tr>');
 
         // Submit
@@ -412,5 +419,49 @@ class admin_plugin_querychangelog extends DokuWiki_Admin_Plugin {
 		ptln('</ul>');
 
 		ptln('</div>');
+    }
+
+    /**
+     * Generate CSV data from the list of changes
+     *
+     * @author  Emmanuel Benoît <tseeker@nocternity.net>
+     */
+    function _generate_csv() {
+        global $conf;
+        global $lang;
+        global $auth;
+        global $ID;
+
+        $titles = [];
+        $users = [];
+        $xhtml_renderer = p_get_renderer('xhtml');
+
+        header('Content-type: text/csv;charset=utf-8');
+        header('Content-Disposition: attachment; filename="changes.csv"');
+        $fd = fopen('php://output', 'w');
+        fputcsv($fd, [
+            'date', 'time', 'minor', 'pageid', 'pagetitle', 'userid', 'username', 'ip'
+        ]);
+        foreach($this->changes as $change){
+            $id = $change['id'];
+            $user = $change['user'];
+            if (!array_key_exists($id, $titles)) {
+                resolve_pageid(getNS($id), $id, $exists, $change['date'], true);
+                $titles[$id] = p_get_first_heading($id);
+            }
+            if (!array_key_exists($user, $users)) {
+                $users[$user] = $auth->getUserData($user);
+            }
+            fputcsv($fd, [
+                strftime('%y-%m-%d', $change['date']),
+                strftime('%T', $change['date']),
+                $change['type'] === 'e' ? 'y' : 'n',
+                $id, $titles[$id],
+                $user, $users[$user]['name'],
+                $change['ip'],
+            ]);
+        }
+        fclose($fd);
+        die;
     }
 }

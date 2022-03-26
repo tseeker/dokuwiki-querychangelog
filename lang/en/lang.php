@@ -28,6 +28,7 @@ $lang['qc_users']       = 'From user(s)';
 $lang['qc_all_users']   = '[All]';
 
 $lang['qc_major_only']  = 'Skip minor changes';
+$lang['qc_as_csv']      = 'Download CSV';
 
 $lang['qc_submit']      = 'Submit';
 

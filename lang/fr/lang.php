@@ -28,6 +28,7 @@ $lang['qc_users']       = 'Dûs à(aux) utilisateur(s)';
 $lang['qc_all_users']   = '[Tous]';
 
 $lang['qc_major_only']  = 'Ne pas prendre en compte les changements mineurs';
+$lang['qc_as_csv']      = 'Télécharger sous forme de CSV';
 
 $lang['qc_submit']      = 'Soumettre';
 
