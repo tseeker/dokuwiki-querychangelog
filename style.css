@@ -1,0 +1,10 @@
+div.dokuwiki table {
+  font-size: 100%;
+  border: 0;
+}
+
+div.dokuwiki tr,
+div.dokuwiki td,
+div.dokuwiki th {
+  border: 0;
+}

@@ -1,0 +1,10 @@
+===== Query Changlog =====
+
+Display the a changelog according to the parameters defined below.
+
+Date format must be respected, the time is given in 24-hours format
+and can be omitted.
+
+:!: This may take a **very** long time if perfomed on a namespace
+containing a lot of pages! (All the '.changes' files within the base
+namespace and its subnamespaces are scanned)

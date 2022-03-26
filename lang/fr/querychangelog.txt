@@ -1,0 +1,12 @@
+===== Query Changlog =====
+
+Affiche un journal des modifications selon les paramètres définis
+ci-dessous.
+
+Le format de date doit être respecté, l'heure entrée en format
+24h. Cette dernière peut être omise.
+
+:!: La génération peut prendre **très** longtemps si elle est
+effectuée sur un namespace contenant de nombreuses pages ! (Tous les
+fichiers '.changes' du namespace et de ses sous dossiers sont
+analysés)
